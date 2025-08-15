@@ -1,0 +1,18 @@
+int height(Node node) {
+        // code here
+        if(node==null) return -1;
+        
+        int lh=height(node.left);
+        int rh=height(node.right);
+        
+        return Math.max(lh,rh)+1;
+    }
+
+     public int maxDepth(TreeNode root) { //max depth of bt
+        if(root==null) return 0;
+        
+        int lh=maxDepth(root.left);
+        int rh=maxDepth(root.right);
+        
+        return Math.max(lh,rh)+1;
+    }
