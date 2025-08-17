@@ -1,0 +1,48 @@
+class Solution {
+    // Function to return a list of nodes visible from the top view
+    // from left to right in Binary Tree.
+    static class info{
+        Node root;
+        int hd;
+        info(Node root,int hd){
+            this.root=root;
+            this.hd=hd;
+        }
+    }
+    static ArrayList<Integer> topView(Node root) {
+        // code here
+        int hd=0;
+        if(root==null){
+            return new ArrayList<>();
+        }
+          Queue<info> q=new LinkedList<>();
+           TreeMap<Integer,Node> map=new TreeMap<>();
+           ArrayList<Integer> ls=new ArrayList<>();
+          
+           q.add(new info(root, hd));
+           while(!q.isEmpty()){
+            
+            info temp=q.remove();
+           
+            if(!map.containsKey(temp.hd)){
+              map.put(temp.hd,temp.root);
+            }
+            
+            if(temp.root.left!=null){
+                q.add(new info(temp.root.left,temp.hd-1));
+            }
+        
+            if(temp.root.right!=null){
+                q.add(new info(temp.root.right,temp.hd+1));
+            }
+          
+           }
+           
+           for(Node node : map.values()){
+               ls.add(node.data);
+           }
+           return ls;
+        }
+        
+   
+}

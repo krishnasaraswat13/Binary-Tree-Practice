@@ -1,0 +1,69 @@
+public List<List<Integer>> levelOrder(TreeNode root) {
+       List<List<Integer>> ls=new ArrayList<>();
+       List<Integer> arr=new ArrayList<>();
+       Queue<TreeNode> q=new LinkedList<>();
+       if(root==null){
+        return ls;
+       }
+       q.add(root);
+       q.add(null);
+       while(!q.isEmpty()){
+        
+        TreeNode temp=q.remove();
+        if(q.isEmpty()){
+            ls.add(arr);
+            break;
+        }
+        if(temp==null){
+            q.add(null);
+            ls.add(arr);
+            arr=new ArrayList<>();
+        
+        }
+        else{
+            arr.add(temp.val);
+            if(temp.left!=null){
+                q.add(temp.left);
+            }
+            if(temp.right!=null){
+                q.add(temp.right);
+            }
+        }
+       }
+       return ls;
+
+    }//but this is not that optimized as we are adding extra null to check level..instead this we can get the queue size and then run loop till the size and at end we add the nested list in final list nd repeat while again
+
+    class Solution {
+    public List<List<Integer>> levelOrder(TreeNode root) {
+        List<List<Integer>> result = new ArrayList<>();
+        if (root == null) {
+            return result;
+        }
+
+        Queue<TreeNode> queue = new LinkedList<>();
+        queue.add(root);
+
+        while (!queue.isEmpty()) {
+            // Get the number of nodes on the current level
+            int levelSize = queue.size();
+            List<Integer> currentLevel = new ArrayList<>();
+
+            // Process exactly that many nodes
+            for (int i = 0; i < levelSize; i++) {
+                TreeNode currentNode = queue.remove();
+                currentLevel.add(currentNode.val);
+
+                // Add children for the *next* level
+                if (currentNode.left != null) {
+                    queue.add(currentNode.left);
+                }
+                if (currentNode.right != null) {
+                    queue.add(currentNode.right);
+                }
+            }
+            result.add(currentLevel);
+        }
+        return result;
+    }
+}

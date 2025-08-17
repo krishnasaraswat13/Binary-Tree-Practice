@@ -1,0 +1,51 @@
+/*
+class Node
+{
+    int data;
+    Node left, right;
+
+    Node(int item)
+    {
+        data = item;
+        left = right = null;
+    }
+}*/
+class Solution {
+    ArrayList<Integer> leftView(Node root) {
+        // code here
+       ArrayList<Integer> ls=new ArrayList<>();
+      
+       Queue<Node> q=new LinkedList<>();
+       if(root==null){
+        return ls;
+       }
+       q.add(root);
+       q.add(null);
+       int p=1;
+       while(!q.isEmpty()){
+      
+        Node temp=q.remove();
+         if(q.isEmpty()){
+            break;
+        }
+        if(temp==null){
+            q.add(null);
+            p=1;
+        }
+        else{
+             if(p==1){
+            ls.add(temp.data);
+            p=0;
+        }
+            if(temp.left!=null){
+                q.add(temp.left);
+            }
+            if(temp.right!=null){
+                q.add(temp.right);
+            }
+        }
+      
+       }
+       return ls;
+    }
+}//similar to right side view and using pointer and null to identify first value at every evel
