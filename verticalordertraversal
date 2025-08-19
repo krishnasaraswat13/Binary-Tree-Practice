@@ -1,0 +1,71 @@
+/**
+ * Definition for a binary tree node.
+ * public class TreeNode {
+ *     int val;
+ *     TreeNode left;
+ *     TreeNode right;
+ *     TreeNode() {}
+ *     TreeNode(int val) { this.val = val; }
+ *     TreeNode(int val, TreeNode left, TreeNode right) {
+ *         this.val = val;
+ *         this.left = left;
+ *         this.right = right;
+ *     }
+ * }
+ */
+class Solution {
+    static class Info{
+        int row;
+        int col;
+        TreeNode root;
+
+        public Info(int row,int col, TreeNode root){
+            this.row = row;
+            this.col=col;
+            this.root = root;
+        }
+    }
+// dont apply dfs use bfs(queue method) for the sake of those nodes which overlaps ie. they have the same row and same coloumn.
+    public static void m_pre(TreeNode root,  TreeMap<Integer, TreeMap<Integer,PriorityQueue<Integer>>> map){
+        Queue<Info> q = new LinkedList<>();
+        q.add(new Info(0,0,root));
+        while(!q.isEmpty()){
+            Info curr = q.poll();
+            if(curr.root != null){
+                if(!map.containsKey(curr.col)){
+                    map.put(curr.col,new TreeMap<>());
+                }
+                TreeMap<Integer, PriorityQueue<Integer>> rowMap = map.get(curr.col);
+                if (!rowMap.containsKey(curr.row)) {
+                    rowMap.put(curr.row, new PriorityQueue<>());
+                }
+                rowMap.get(curr.row).add(curr.root.val);
+                if (curr.root.left != null) {
+                    q.add(new Info(curr.row + 1, curr.col - 1, curr.root.left));
+                }
+                if (curr.root.right != null) {
+                    q.add(new Info(curr.row + 1, curr.col + 1, curr.root.right));
+                }
+            }
+        }
+    }
+    public List<List<Integer>> verticalTraversal(TreeNode root) {
+        TreeMap<Integer, TreeMap<Integer,PriorityQueue<Integer>>> map = new TreeMap<>();
+        m_pre(root, map);
+        List<List<Integer>> result = new ArrayList<>();
+
+        for (TreeMap<Integer, PriorityQueue<Integer>> cols : map.values()) {
+        
+            List<Integer> colList = new ArrayList<>();
+        
+            for (PriorityQueue<Integer> rows : cols.values()) {
+                 while (!rows.isEmpty()) {
+                    colList.add(rows.poll());
+                }
+            }
+            result.add(colList);
+        }
+        
+        return result;
+    }
+}
