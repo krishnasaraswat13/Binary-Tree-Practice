@@ -1,0 +1,23 @@
+class Solution {
+    /* Returns level of given data value */
+    int getLevel(Node node, int data) {
+        // Write your code here
+        if(node==null){
+            return 0;
+        }
+          Queue<Node> q = new LinkedList<>();
+        q.offer(node);
+        int level=1;
+        while(!q.isEmpty()){
+            int l =q.size();
+            for(int i=0;i<l;i++){
+                Node x = q.poll();
+                if(x.data==data) return level;
+                if(x.left!=null) q.offer(x.left);
+                if(x.right!=null) q.offer(x.right);
+            }
+            level++;
+        }
+        return 0;
+    }
+}

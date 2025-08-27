@@ -1,0 +1,84 @@
+
+
+//it is giving tle
+
+/*Complete the Given Function
+
+Node is as follows:
+class Node{
+    int data;
+    Node left,right;
+    Node(int d){
+        data=d;
+        left=null;
+        right=null;
+    }
+}*/
+
+class Solution {
+    public void toSumTree(Node root) {
+        // add code here.
+       helper(root);
+    }
+    public int helper(Node root){
+        if(root==null){
+            return 0;
+        }
+        int data=root.data;
+        int leftchild=helper(root.left);
+        int rightchild=helper(root.right);
+        
+        int left=root.left==null?0:root.left.data;
+        int right=root.right==null?0:root.right.data;
+        root.data=leftchild+left+rightchild+right;
+        
+        return data;
+    }
+}
+
+
+
+
+//it is not giving tle
+
+/*
+Structure of Node class is:
+
+class Node {
+    int data;
+    Node left, right;
+
+    public Node(int data){
+        this.data = data;
+    }
+}
+*/
+
+class Solution {
+    public void toSumTree(Node root) {
+        helper(root);
+    }
+
+    public int helper(Node root) {
+        // Base Case: A null tree has a sum of 0.
+        if (root == null) {
+            return 0;
+        }
+
+        // Store the node's original value before it's changed.
+        int originalValue = root.data;
+
+        // Recursively call on children. This will transform the subtrees
+        // and return the sum of the original nodes in each subtree.
+        int leftSubtreeSum = helper(root.left);
+        int rightSubtreeSum = helper(root.right);
+
+        // Update the current node's data to be the sum of its
+        // original left and right subtrees.
+        root.data = leftSubtreeSum + rightSubtreeSum;
+
+        // Return the sum of the original subtree rooted at this node.
+        // This is its own original value plus the original sums from its children.
+        return originalValue + root.data;
+    }
+}
