@@ -1,0 +1,107 @@
+/**
+ * Definition for a binary tree node.
+ * public class TreeNode {
+ *     int val;
+ *     TreeNode left;
+ *     TreeNode right;
+ *     TreeNode() {}
+ *     TreeNode(int val) { this.val = val; }
+ *     TreeNode(int val, TreeNode left, TreeNode right) {
+ *         this.val = val;
+ *         this.left = left;
+ *         this.right = right;
+ *     }
+ * }
+ */
+class Solution {
+    class Pair{
+        TreeNode root;
+        long idx;
+        public Pair(TreeNode root,long idx){
+            this.root=root;
+            this.idx=idx;
+        }
+    }
+    public int widthOfBinaryTree(TreeNode root) {
+        if(root==null){
+            return 0;
+        }
+        long front=0;
+        long last=0;
+        long max=0;
+        Queue<Pair> q=new LinkedList<>();
+        q.add(new Pair(root,0));
+        while(!q.isEmpty()){
+            int size=q.size();
+            for(int i=0;i<size;i++){
+                Pair curr=q.remove();
+                last=curr.idx;
+                if(i==0){
+                    front=curr.idx;
+                }
+            
+                if(curr.root.left!=null){
+                    q.offer(new Pair(curr.root.left,(2*(curr.idx))+1));
+                }
+                 if(curr.root.right!=null){
+                    q.offer(new Pair(curr.root.right,(2*(curr.idx))+2));
+                }
+               
+                
+
+            }
+             max=Math.max(max,last-front+1);
+        }
+        return (int)max;
+    }
+}
+
+////////////this is the case where we are not counting the null nodes bw any two nodes
+/// 
+/// 
+/*
+class Node
+{
+    int data;
+    Node left, right;
+
+    Node(int item)
+    {
+        data = item;
+        left = right = null;
+    }
+} */
+
+class Solution {
+    
+    int maxWidth(Node root) {
+        //  code here
+     if(root==null){
+            return 0;
+        }
+        long front=0;
+        long last=0;
+        long max=0;
+        Queue<Node> q=new LinkedList<>();
+        q.add(root);
+        while(!q.isEmpty()){
+            int size=q.size();
+            max=Math.max(max,size);
+            for(int i=0;i<size;i++){
+                Node curr=q.remove();
+            
+                if(curr.left!=null){
+                    q.offer(curr.left);
+                }
+                 if(curr.right!=null){
+                    q.offer(curr.right);
+                }
+               
+                
+
+            }
+           
+        }
+        return (int)max;
+    }
+}
